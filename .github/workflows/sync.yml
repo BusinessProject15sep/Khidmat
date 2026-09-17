@@ -1,0 +1,29 @@
+name: Sync Places Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      city:
+        description: 'City slug (blank = all cities)'
+        required: false
+      category:
+        description: 'Category slug (blank = all categories)'
+        required: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sync
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: node sync-places.mjs --city=${{ github.event.inputs.city }} --category=${{ github.event.inputs.category }}
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
