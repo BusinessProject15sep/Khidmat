@@ -2,12 +2,15 @@
   "name": "khidmat-places-sync",
   "version": "1.0.0",
   "type": "module",
-  "description": "Google Places -> Supabase sync job for the Khidmat services directory app",
+  "description": "Google Places / OSM / manual data sync jobs for the Khidmat services directory app",
   "scripts": {
-    "sync": "node sync-places.mjs"
+    "sync": "node sync-places.mjs",
+    "sync:osm": "node sync-osm.mjs",
+    "import:manual": "node import-manual.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.0"
+    "@supabase/supabase-js": "^2.45.0",
+    "xlsx": "^0.18.5"
   },
   "engines": {
     "node": ">=18"
