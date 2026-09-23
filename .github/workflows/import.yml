@@ -1,0 +1,26 @@
+name: Import Manual Listings
+
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: 'Path to the xlsx file in the repo'
+        required: true
+        default: 'sync/multan-plumbers-electricians-cleaned.xlsx'
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sync
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: node import-manual.mjs "../${{ github.event.inputs.file }}"
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
